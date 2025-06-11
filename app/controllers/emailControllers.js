@@ -3,7 +3,7 @@ const { sendBookingEmail, sendBookingEmailToBusiness } = require('../services/em
 
 exports.bookingEmail = async (req, res) => {
     try {
-      const { email, name, scheduledTime } = req.body;
+      const { email, name, phoneNumber, scheduledTime } = req.body;
   
       if (!email || !name || !scheduledTime) {
         return res.status(400).json({
@@ -12,13 +12,13 @@ exports.bookingEmail = async (req, res) => {
         });
       }
   
-      const info = await sendBookingEmail(email, name, scheduledTime);
-      await sendBookingEmailToBusiness(email, name, scheduledTime);
+      await sendBookingEmail(email, name, phoneNumber, scheduledTime);
+      await sendBookingEmailToBusiness(email, name, phoneNumber, scheduledTime);
   
       res.status(200).json({
         success: true,
         message: 'Email sent successfully',
-        info,
+        //info,
       });
     } catch (error) {
       console.error('Error in sendEmailHandler:', error);
